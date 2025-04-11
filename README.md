@@ -1,0 +1,1 @@
+# scm-animal-alignment-app
