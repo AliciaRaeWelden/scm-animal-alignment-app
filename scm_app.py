@@ -68,7 +68,7 @@ if st.button("🧪 Generate and Score"):
     st.metric("Δ (Vegan - Commodity)", f"{delta:.3f}",
               delta=f"{delta:+.2f}")
 
-    st.progress((delta + 1) / 2)
+    st.progress(float((delta + 1) / 2))
     if delta > 0.1:
         st.success("This completion aligns more with **vegan values**.")
     elif delta < -0.1:
