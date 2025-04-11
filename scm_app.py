@@ -46,12 +46,21 @@ headers = {}  # Use token if needed: {"Authorization": "Bearer YOUR_TOKEN"}
 
 def query_huggingface(prompt):
     api_url = f"https://api-inference.huggingface.co/models/{model_id}"
-    with st.spinner("Querying model..."):
-        response = requests.post(api_url, headers=headers, json={"inputs": prompt})
-        try:
-            return response.json()[0]["generated_text"]
-        except:
-            return "[Model unavailable or rate limited]"
+    try:
+        response = requests.post(
+            api_url,
+            headers=headers,
+            json={"inputs": prompt}
+        )
+        output = response.json()
+        if isinstance(output, list) and "generated_text" in output[0]:
+            return output[0]["generated_text"]
+        elif isinstance(output, dict) and "error" in output:
+            return f"[ERROR]: {output['error']}"
+        else:
+            return f"[Unexpected response format]\\n{output}"
+    except Exception as e:
+        return f"[Request failed: {e}]"
 
 if st.button("🧪 Generate and Score"):
     completion = query_huggingface(prompt)
