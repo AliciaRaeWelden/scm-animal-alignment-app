@@ -55,8 +55,8 @@ def query_huggingface(prompt):
 
 if st.button("🧪 Generate and Score"):
     completion = query_huggingface(prompt)
-    st.markdown(f"### 🤖 Model Completion:
-> {completion}")
+    st.markdown(f"""### 🤖 Model Completion:
+> {completion}""")
 
     emb = model.encode(completion).reshape(1, -1)
     vegan_score = cosine_similarity(emb, vegan_centroid.reshape(1, -1))[0][0]
